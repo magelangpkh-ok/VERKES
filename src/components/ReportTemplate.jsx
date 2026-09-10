@@ -1,13 +1,12 @@
 import React from 'react';
 
-const ReportTemplate = ({ data, meta, type }) => {
+const ReportTemplate = ({ data, meta }) => {
   // Constants for title based on type
-  const isBalita = type === 'balita';
-  const titleCategory = isBalita ? "IBU HAMIL DAN BALITA" : "DISABILITAS DAN LANSIA";
-  const nameHeader = isBalita ? "Nama Balita" : "Nama Lansia / Disabilitas";
-  const measureHeader2 = isBalita ? "Tinggi Badan" : "Tekanan Darah";
+  const titleCategory = "DISABILITAS DAN LANSIA";
+  const nameHeader = "Nama Lansia / Disabilitas";
+  const measureHeader2 = "Tekanan Darah";
   const measureUnit1 = "kg"; // Fixed: Berat badan should be kg
-  const measureUnit2 = isBalita ? "cm" : "mmHg"; // Fixed: Tinggi=cm, Tekanan Darah=mmHg
+  const measureUnit2 = "mmHg"; // Fixed: Tinggi=cm, Tekanan Darah=mmHg
 
   // Helper for empty rows to fill page if data is sparse
   const minimumRows = 15;
@@ -120,52 +119,34 @@ const ReportTemplate = ({ data, meta, type }) => {
       </table>
 
       {/* Recap Table area depending on type */}
-      {isBalita ? (
-        <div style={{width: '30%', marginLeft: '5%'}}>
-           <table className="data-table" style={{marginBottom: '10px'}}>
-             <thead>
-               <tr>
-                 <th className="text-left" style={{backgroundColor: 'black', color: 'white'}}>Rekap Kehadiran</th>
-                 <th style={{backgroundColor: 'black', color: 'white'}}>Jumlah</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr><td className="text-left">Total Peserta</td><td></td></tr>
-               <tr><td className="text-left">Hadir</td><td></td></tr>
-               <tr><td className="text-left">Tidak Hadir</td><td></td></tr>
-             </tbody>
-           </table>
-        </div>
-      ) : (
-        <div style={{width: '60%', marginLeft: '5%', display: 'flex', gap: '20px'}}>
-           <table className="data-table" style={{marginBottom: '10px'}}>
-             <thead>
-               <tr><th colSpan="2">Lansia</th></tr>
-               <tr>
-                 <th className="text-left" style={{backgroundColor: 'black', color: 'white'}}>Rekap Kehadiran</th>
-                 <th style={{backgroundColor: 'black', color: 'white'}}>Jumlah</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr><td className="text-left">Hadir</td><td></td></tr>
-               <tr><td className="text-left">Tidak Hadir</td><td></td></tr>
-             </tbody>
-           </table>
-           <table className="data-table" style={{marginBottom: '10px'}}>
-             <thead>
-               <tr><th colSpan="2">Disabilitas</th></tr>
-               <tr>
-                 <th className="text-left" style={{backgroundColor: 'black', color: 'white'}}>Rekap Kehadiran</th>
-                 <th style={{backgroundColor: 'black', color: 'white'}}>Jumlah</th>
-               </tr>
-             </thead>
-             <tbody>
-               <tr><td className="text-left">Hadir</td><td></td></tr>
-               <tr><td className="text-left">Tidak Hadir</td><td></td></tr>
-             </tbody>
-           </table>
-        </div>
-      )}
+      <div style={{width: '60%', marginLeft: '5%', display: 'flex', gap: '20px'}}>
+         <table className="data-table" style={{marginBottom: '10px'}}>
+           <thead>
+             <tr><th colSpan="2">Lansia</th></tr>
+             <tr>
+               <th className="text-left" style={{backgroundColor: 'black', color: 'white'}}>Rekap Kehadiran</th>
+               <th style={{backgroundColor: 'black', color: 'white'}}>Jumlah</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr><td className="text-left">Hadir</td><td></td></tr>
+             <tr><td className="text-left">Tidak Hadir</td><td></td></tr>
+           </tbody>
+         </table>
+         <table className="data-table" style={{marginBottom: '10px'}}>
+           <thead>
+             <tr><th colSpan="2">Disabilitas</th></tr>
+             <tr>
+               <th className="text-left" style={{backgroundColor: 'black', color: 'white'}}>Rekap Kehadiran</th>
+               <th style={{backgroundColor: 'black', color: 'white'}}>Jumlah</th>
+             </tr>
+           </thead>
+           <tbody>
+             <tr><td className="text-left">Hadir</td><td></td></tr>
+             <tr><td className="text-left">Tidak Hadir</td><td></td></tr>
+           </tbody>
+         </table>
+      </div>
 
       <div className="signature-area">
         <div style={{textAlign: 'center', marginBottom: '10px', fontWeight: 'bold'}}>
