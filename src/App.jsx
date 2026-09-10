@@ -5,7 +5,6 @@ import ReportTemplate from './components/ReportTemplate';
 import * as XLSX from 'xlsx';
 
 function App() {
-  const [templateType, setTemplateType] = useState('balita');
   const [fileData, setFileData] = useState(null);
   const [fileName, setFileName] = useState('');
   const [isDragging, setIsDragging] = useState(false);
@@ -86,14 +85,6 @@ function App() {
             </div>
             
             <div className="form-grid">
-              <div className="input-group" style={{ gridColumn: '1 / -1' }}>
-                <label>Template Laporan</label>
-                <select value={templateType} onChange={(e) => setTemplateType(e.target.value)}>
-                  <option value="balita">Kesehatan: Ibu Hamil & Balita</option>
-                  <option value="lansia">Kesehatan: Disabilitas & Lansia</option>
-                </select>
-              </div>
-              
               <div className="input-group">
                 <label>Faskes</label>
                 <input type="text" name="faskes" value={meta.faskes} onChange={handleMetaChange} placeholder="Posyandu Desa..." />
@@ -138,13 +129,6 @@ function App() {
             </div>
 
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '2rem', flexDirection: 'column' }}>
-              <a 
-                href="/Template_Ibu_Hamil_Balita.xlsx"
-                download
-                className="btn-outline"
-              >
-                <Download size={18} /> Template Ibu Hamil & Balita
-              </a>
               <a 
                 href="/Template_Disabilitas_Lansia.xlsx"
                 download
@@ -199,7 +183,7 @@ function App() {
         <div className="preview-wrapper">
           <h2 className="preview-title print-none">📄 Live Preview</h2>
           <div className="paper-sheet">
-            <ReportTemplate data={fileData} meta={meta} type={templateType} />
+            <ReportTemplate data={fileData} meta={meta} />
           </div>
         </div>
       )}
