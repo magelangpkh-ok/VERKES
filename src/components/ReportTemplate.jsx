@@ -157,13 +157,9 @@ const ReportTemplate = ({ data, meta }) => {
         <table className="signature-table">
           <tbody>
             <tr>
-              <td>Pendamping PKH</td>
               <td>Bidan Desa</td>
-              <td>Kepala Desa</td>
             </tr>
             <tr>
-              <td><div className="signature-line"></div></td>
-              <td><div className="signature-line"></div></td>
               <td><div className="signature-line"></div></td>
             </tr>
           </tbody>
