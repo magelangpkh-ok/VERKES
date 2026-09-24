@@ -89,11 +89,11 @@ const ReportTemplate = ({ data, meta, config }) => {
       <table className="data-table">
         <thead>
           <tr>
-            <th rowSpan="2" style={{width: '4%'}}>No</th>
-            <th rowSpan="2" style={{width: '16%'}}>No. KK</th>
-            <th rowSpan="2" style={{width: '16%'}}>{nameHeader}</th>
+            <th rowSpan="2" style={{width: '4.5%'}}>No</th>
+            <th rowSpan="2" style={{width: '17%'}}>No. KK</th>
+            <th rowSpan="2" style={{width: '15%'}}>{nameHeader}</th>
             <th rowSpan="2" style={{width: '14%'}}>Nama Pengurus</th>
-            <th rowSpan="2" style={{width: '19%'}}>Alamat</th>
+            <th rowSpan="2" style={{width: '18.5%'}}>Alamat</th>
             <th colSpan="2" style={{width: '19%'}}>Hasil Pemeriksaan</th>
             <th rowSpan="2" style={{width: '12%'}}>Keterangan</th>
           </tr>
@@ -105,8 +105,8 @@ const ReportTemplate = ({ data, meta, config }) => {
         <tbody>
           {renderRows.map((row, idx) => (
             <tr key={idx}>
-              <td>{row.no}</td>
-              <td className="text-left">{row.noKK}</td>
+              <td style={{ whiteSpace: 'nowrap' }}>{row.no}</td>
+              <td className="text-left" style={{ whiteSpace: 'nowrap' }}>{row.noKK}</td>
               <td className="text-left">{row.nama}</td>
               <td className="text-left">{row.namaPengurus}</td>
               <td className="text-left">{row.alamat}</td>
