@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ReportTemplate = ({ data, meta }) => {
+const ReportTemplate = ({ data, meta, config }) => {
   // Constants for title based on type
   const titleCategory = "DISABILITAS DAN LANSIA";
   const nameHeader = "Nama Lansia / Disabilitas";
@@ -11,7 +11,7 @@ const ReportTemplate = ({ data, meta }) => {
   // Helper for empty rows to fill page if data is sparse
   const minimumRows = 15;
   const renderRows = [...data];
-  if (renderRows.length < minimumRows) {
+  if (config?.fillEmptyRows && renderRows.length < minimumRows) {
     for (let i = renderRows.length; i < minimumRows; i++) {
       renderRows.push({
         no: i + 1,
@@ -89,13 +89,13 @@ const ReportTemplate = ({ data, meta }) => {
       <table className="data-table">
         <thead>
           <tr>
-            <th rowSpan="2" style={{width: '3%'}}>No</th>
-            <th rowSpan="2" style={{width: '15%'}}>No. KK</th>
-            <th rowSpan="2" style={{width: '18%'}}>{nameHeader}</th>
-            <th rowSpan="2" style={{width: '15%'}}>Nama Pengurus</th>
-            <th rowSpan="2" style={{width: '20%'}}>Alamat</th>
-            <th colSpan="2" style={{width: '15%'}}>Hasil Pemeriksaan</th>
-            <th rowSpan="2" style={{width: '14%'}}>Keterangan</th>
+            <th rowSpan="2" style={{width: '4%'}}>No</th>
+            <th rowSpan="2" style={{width: '16%'}}>No. KK</th>
+            <th rowSpan="2" style={{width: '16%'}}>{nameHeader}</th>
+            <th rowSpan="2" style={{width: '14%'}}>Nama Pengurus</th>
+            <th rowSpan="2" style={{width: '19%'}}>Alamat</th>
+            <th colSpan="2" style={{width: '19%'}}>Hasil Pemeriksaan</th>
+            <th rowSpan="2" style={{width: '12%'}}>Keterangan</th>
           </tr>
           <tr>
             <th style={{fontWeight: 'normal', fontSize: '9pt'}}>Berat Badan<br/>({measureUnit1})</th>
@@ -119,7 +119,7 @@ const ReportTemplate = ({ data, meta }) => {
       </table>
 
       {/* Recap Table area depending on type */}
-      <div style={{width: '60%', marginLeft: '5%', display: 'flex', gap: '20px'}}>
+      <div className="recap-area" style={{width: '60%', marginLeft: '5%', display: 'flex', gap: '20px'}}>
          <table className="data-table" style={{marginBottom: '10px'}}>
            <thead>
              <tr><th colSpan="2">Lansia</th></tr>
