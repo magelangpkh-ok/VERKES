@@ -15,7 +15,7 @@ function App() {
   });
 
   const [printConfig, setPrintConfig] = useState({
-    fontSize: 9,
+    fontSize: 10,
     isLandscape: false,
     useBindingMargin: false,
     fillEmptyRows: true
@@ -201,18 +201,19 @@ function App() {
               style={{ display: 'none' }} 
             />
 
-            <button 
-              className="btn-primary" 
-              onClick={handlePrint} 
-              disabled={!fileData}
-            >
-              <Printer size={20} /> Generate & Print PDF
-            </button>
+            <div style={{ display: 'flex', gap: '10px', marginTop: '1.5rem', flexWrap: 'wrap' }}>
+              <button 
+                className="btn-primary" 
+                onClick={handlePrint} 
+                disabled={!fileData}
+                style={{ flex: '1 1 100%', marginTop: 0 }}
+              >
+                <Printer size={20} /> Cetak / Simpan sebagai PDF (Ctrl+P)
+              </button>
+            </div>
           </div>
         </div>
       </div>
-
-      {/* Preview Area ... */}
 
       {/* Preview and Print Area */}
       {fileData && (
@@ -227,6 +228,7 @@ function App() {
           `}} />
           <h2 className="preview-title print-none">📄 Live Preview</h2>
           <div 
+            id="report-pdf-target"
             className={`paper-sheet ${printConfig.isLandscape ? 'landscape' : 'portrait'}`} 
             style={{ fontSize: `${printConfig.fontSize}pt` }}
           >
