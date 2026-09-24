@@ -14,6 +14,13 @@ function App() {
     provinsi: '', kabupaten: '', kecamatan: '', desa: ''
   });
 
+  const [printConfig, setPrintConfig] = useState({
+    fontSize: 9,
+    isLandscape: false,
+    useBindingMargin: false,
+    fillEmptyRows: true
+  });
+
   const fileInputRef = useRef(null);
 
   // Template download is now handled by static links in the UI
@@ -21,6 +28,14 @@ function App() {
   const handleMetaChange = (e) => {
     const { name, value } = e.target;
     setMeta(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handlePrintConfigChange = (e) => {
+    const { name, type, checked, value } = e.target;
+    setPrintConfig(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : Number(value)
+    }));
   };
 
   const handleFileUpload = async (file) => {
@@ -118,6 +133,27 @@ function App() {
                 <input type="text" name="desa" value={meta.desa} onChange={handleMetaChange} placeholder="Kentengsari" />
               </div>
             </div>
+
+            <hr style={{ margin: '2rem 0', borderColor: 'var(--border-solid)' }} />
+            <h3 style={{ fontSize: '1.1rem', marginBottom: '1rem', color: 'var(--text-main)', fontFamily: 'Outfit, sans-serif' }}>⚙️ Pengaturan Cetak (PDF)</h3>
+            <div className="form-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))' }}>
+              <div className="input-group">
+                <label>Ukuran Font ({printConfig.fontSize}pt)</label>
+                <input type="range" name="fontSize" min="8" max="14" step="0.5" value={printConfig.fontSize} onChange={handlePrintConfigChange} style={{ padding: '0', background: 'transparent', border: 'none', boxShadow: 'none' }} />
+              </div>
+              <div className="input-group" style={{ flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+                <input type="checkbox" name="isLandscape" checked={printConfig.isLandscape} onChange={handlePrintConfigChange} id="isLandscape" style={{width: '20px', height: '20px'}} />
+                <label htmlFor="isLandscape" style={{margin: 0, textTransform: 'none', fontSize: '0.95rem', cursor: 'pointer'}}>Cetak Lanskap (Mendatar)</label>
+              </div>
+              <div className="input-group" style={{ flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+                <input type="checkbox" name="useBindingMargin" checked={printConfig.useBindingMargin} onChange={handlePrintConfigChange} id="useBindingMargin" style={{width: '20px', height: '20px'}} />
+                <label htmlFor="useBindingMargin" style={{margin: 0, textTransform: 'none', fontSize: '0.95rem', cursor: 'pointer'}}>Margin Kiri Lebar (Untuk Dijilid)</label>
+              </div>
+              <div className="input-group" style={{ flexDirection: 'row', alignItems: 'center', gap: '10px' }}>
+                <input type="checkbox" name="fillEmptyRows" checked={printConfig.fillEmptyRows} onChange={handlePrintConfigChange} id="fillEmptyRows" style={{width: '20px', height: '20px'}} />
+                <label htmlFor="fillEmptyRows" style={{margin: 0, textTransform: 'none', fontSize: '0.95rem', cursor: 'pointer'}}>Auto-fill Baris Kosong</label>
+              </div>
+            </div>
           </div>
 
           <div className="glass-panel" style={{ display: 'flex', flexDirection: 'column' }}>
@@ -181,9 +217,20 @@ function App() {
       {/* Preview and Print Area */}
       {fileData && (
         <div className="preview-wrapper">
+          <style dangerouslySetInnerHTML={{__html: `
+            @media print {
+              @page {
+                size: ${printConfig.isLandscape ? 'A4 landscape' : 'A4 portrait'};
+                margin: ${printConfig.useBindingMargin ? '10mm 10mm 10mm 20mm' : '10mm'};
+              }
+            }
+          `}} />
           <h2 className="preview-title print-none">📄 Live Preview</h2>
-          <div className="paper-sheet">
-            <ReportTemplate data={fileData} meta={meta} />
+          <div 
+            className={`paper-sheet ${printConfig.isLandscape ? 'landscape' : 'portrait'}`} 
+            style={{ fontSize: `${printConfig.fontSize}pt` }}
+          >
+            <ReportTemplate data={fileData} meta={meta} config={printConfig} />
           </div>
         </div>
       )}
@@ -191,22 +238,6 @@ function App() {
       <footer className="print-none">
         <p>© 2026 MagelangOK. Dibuat untuk efisiensi. | <a href="https://magelang-ok.vercel.app/" target="_blank" rel="noreferrer">Magelang OK</a></p>
       </footer>
-
-      <style dangerouslySetInnerHTML={{__html: `
-        @media print {
-          .print-none {
-            display: none !important;
-          }
-          .preview-wrapper {
-            margin: 0;
-            padding: 0;
-            box-shadow: none;
-            border: none;
-            background: none;
-            backdrop-filter: none;
-          }
-        }
-      `}} />
     </>
   );
 }

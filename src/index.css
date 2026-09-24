@@ -389,19 +389,25 @@ footer a:hover {
 .paper-sheet {
   background: white;
   color: black;
-  width: 21cm;
-  min-height: 29.7cm;
   margin: 0 auto;
   padding: 0.5cm;
   box-shadow: 0 0 10px rgba(0,0,0,0.5);
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10pt;
+}
+
+.paper-sheet.portrait {
+  width: 21cm;
+  min-height: 29.7cm;
+}
+
+.paper-sheet.landscape {
+  width: 29.7cm;
+  min-height: 21cm;
 }
 
 /* Base Report Styling applied to both screen preview and print */
 .report-container {
   width: 100%;
-  max-width: 21cm;
   margin: 0 auto;
   padding: 0.5cm;
 }
@@ -412,6 +418,8 @@ footer a:hover {
   margin-bottom: 20px;
   line-height: 1.2;
   font-size: 12pt;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .meta-grid {
@@ -419,6 +427,8 @@ footer a:hover {
   justify-content: space-between;
   margin-bottom: 20px;
   padding: 0 40px;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .meta-table {
@@ -437,6 +447,8 @@ footer a:hover {
   border-collapse: collapse;
   margin-bottom: 30px;
   page-break-inside: auto;
+  table-layout: fixed; /* Mencegah kolom melebar dari persentase yang diset */
+  word-wrap: break-word; /* Memastikan teks panjang turun ke bawah */
 }
 
 .data-table tr {
@@ -449,11 +461,19 @@ footer a:hover {
 }
 
 .data-table th, .data-table td {
-  border: 1.5px solid black;
-  padding: 6px 4px;
+  border: 1pt solid black;
+  padding: 6px 3px; /* Kurangi horizontal padding agar teks lebih leluasa */
   text-align: center;
-  vertical-align: middle;
-  color: black; /* Ensure black on preview */
+  vertical-align: top; /* Text di atas lebih rapi jika ada row beda tinggi */
+  color: black;
+  overflow: hidden;
+}
+
+/* Zebra striping untuk tabel agar mudah dibaca di baris yang panjang */
+.data-table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .data-table th {
@@ -471,10 +491,17 @@ footer a:hover {
   text-align: center !important;
 }
 
+.recap-area {
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
 .signature-area {
   width: 100%;
   margin-top: 30px;
   color: black;
+  page-break-inside: avoid;
+  break-inside: avoid;
 }
 
 .signature-table {
@@ -498,25 +525,42 @@ footer a:hover {
 }
 
 @media print {
-  body * {
-    visibility: hidden;
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
   }
   
   body {
     background: white;
     color: black;
+    margin: 0;
+    padding: 0;
   }
 
-  .paper-sheet, .paper-sheet * {
-    visibility: visible;
+  .print-none {
+    display: none !important;
   }
-  
-  .paper-sheet {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 21cm;
-    box-shadow: none;
+
+  .paper-sheet.portrait, .paper-sheet.landscape {
+    width: 100%;
+    min-height: auto;
     margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .report-container {
+    max-width: 100%;
+    padding: 0;
+  }
+
+  .preview-wrapper {
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+    background: none;
+    backdrop-filter: none;
+    overflow: visible !important;
   }
 }
